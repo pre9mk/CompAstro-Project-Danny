@@ -14,7 +14,7 @@ class Potential:
         raise NotImplementedError("error")
 
 
-class MiyamotoNagai(Potential):
+def MiyamotoNagai(M, a, b):
     """Miyamoto-Nagai disk potential"""
     
     def evaluate(x, y, z):
@@ -50,5 +50,85 @@ class MiyamotoNagai(Potential):
 
     #Calculate the acceleration for a star at 8 kpc out on the x-axis
     disk_accel = disk["acceleration"](x=8, y=0, z=0)
+
+
+def hernquist(M, c):
+    """Creates a Hernquist bulge potential"""
+    def evaluate(x, y, z):
+        r = x**2 + y**2 + z**2
+
+        potential = (G * M) / (r + c)
+        return potential
+
+    def acceleration(x, y, z):
+        r = np.sqrt(x**2 + y**2 + z**2)
+
+        if r == 0:
+            return np.array([0, 0, 0])
+
+        magnitude = -(G * M) / (r + c)
+
+        ax = magnitude * (x/r)
+        ay = magnitude * (y/r)
+        az = magnitude * (z/c)
+
+        return np.array([ax, ay, az])
+
+def nfw_halo(M, r_s):
+    """Creates a Navarro-Frenk-White dark matter halo potential"""
+
+    def evaluate(x, y, z):
+        r = np.sqrt(x**2 + y**2 + z**2)
+
+        if r == 0:
+            return -(G * M) / r_s
+
+        potential = -(G * M/r) * np.log(1 - (r/r_s))
+        return potential
+
+    def acceleration(x, y, z):
+        r = np.sqrt(x**2 + y**2 + z**2)
         
+        if r == 0:
+            return np.array([0.0, 0.0, 0.0])
+            
+        ratio = r / r_s
+        term1 = ratio / (1 + ratio)
+        
+        
+        term2 = np.log10(1 + ratio)
+        
+        magnitude = (G * M / r**2) * (term1 - term2)
+        
+        ax = magnitude * (x / r)
+        ay = magnitude * (y / r)
+        az = magnitude * (z / r)
+        
+        return np.array([ax, ay, az])
+
+
+def create_total_potential(components):
+    """Takes the potentials and returns a single unified evaluate and acceleration function"""
+
+    def evaluate(x, y, z):
+        total_pot = 0
+
+        for comp in components:
+            total_pot += comp["evaluate"](x, y, z)
+
+        return total_pot
+
+    def acceleration(x, y, z):
+        total_acc = np.array([0, 0, 0])
+
+        for comp in components:
+            total acc += comp["acceleration"](x, y, z)
+
+        return total_acc
+
+
+
+
+
+    
         

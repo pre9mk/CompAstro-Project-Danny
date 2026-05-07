@@ -8,3 +8,6 @@ import numpy as np
 #Gravitational constant in kpc^3 / (M_sun * Myr^2)
 G = 4.498e10-12
 
+#sanity check
+print("Test Start")
+
