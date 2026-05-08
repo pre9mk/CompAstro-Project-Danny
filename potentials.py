@@ -39,7 +39,7 @@ def MiyamotoNagai(M, a, b):
         ay = -(G * M * y) / base_denominator
 
         #z acceleration w/ extra factor
-        az_numerator = -(G * M * z * (a - z_term))
+        az_numerator = -(G * M * z * (a + z_term))
         az_denominator = z_term * base_denominator
         az = az_numerator / az_denominator
 
@@ -65,7 +65,7 @@ def hernquist(M, c):
 
         ax = magnitude * (x/r)
         ay = magnitude * (y/r)
-        az = magnitude * (z/c)
+        az = magnitude * (z/r)
 
         return np.array([ax, ay, az])
 
@@ -93,7 +93,7 @@ def nfw_halo(M, r_s):
         term1 = ratio / (1 + ratio)
         
         
-        term2 = np.log10(1 + ratio)
+        term2 = np.log(1 + ratio)
         
         magnitude = (G * M / r**2) * (term1 - term2)
         
