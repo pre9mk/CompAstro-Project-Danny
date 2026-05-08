@@ -22,7 +22,7 @@ def MiyamotoNagai(M, a, b):
         z_term = np.sqrt(z**2 + b**2)
         denominator = np.sqrt(R_sq + (a + z_term)**2)
 
-        potential = (G * M) / denominator
+        potential = -(G * M) / denominator
 
         return potential
 
@@ -50,9 +50,9 @@ def MiyamotoNagai(M, a, b):
 def hernquist(M, c):
     """Creates a Hernquist bulge potential"""
     def evaluate(x, y, z):
-        r = x**2 + y**2 + z**2
+        r = np.sqrt(x**2 + y**2 + z**2)
 
-        potential = (G * M) / (r + c)
+        potential = -(G * M) / (r + c)
         return potential
 
     def acceleration(x, y, z):
@@ -61,13 +61,15 @@ def hernquist(M, c):
         if r == 0:
             return np.array([0, 0, 0])
 
-        magnitude = -(G * M) / (r + c)
+        magnitude = -(G * M) / ((r + c)**2)
 
         ax = magnitude * (x/r)
         ay = magnitude * (y/r)
         az = magnitude * (z/c)
 
         return np.array([ax, ay, az])
+
+    return {"evaluate": evaluate, "acceleration": acceleration}
 
 def nfw_halo(M, r_s):
     """Creates a Navarro-Frenk-White dark matter halo potential"""
@@ -78,7 +80,7 @@ def nfw_halo(M, r_s):
         if r == 0:
             return -(G * M) / r_s
 
-        potential = -(G * M/r) * np.log(1 - (r/r_s))
+        potential = -(G * M/r) * np.log(1 + (r/r_s))
         return potential
 
     def acceleration(x, y, z):
@@ -100,6 +102,8 @@ def nfw_halo(M, r_s):
         az = magnitude * (z / r)
         
         return np.array([ax, ay, az])
+
+    return {"evaluate": evaluate, "acceleration": acceleration}
 
 
 def create_total_potential(components):
