@@ -93,3 +93,22 @@ ax2.grid(True)
 
 plt.tight_layout()
 plt.show()
+
+#Put data in a .txt file and export it
+print("Exporting Data...")
+filename = "stellar_orbit_data.txt"
+
+with open(filename, "w") as f:
+    #Header row
+    f.write("Time(Myr)    x(kpc)    y(kpc)    z(kpc)    vx(kpc/Myr)    vy(kpc/Myr)    vz(kpc/Myr)    Energy_Error\n")
+
+    #Loop through and return the first 50 lines of data
+    for i in range(0, num_steps, 50):
+        t_val = times[i]
+        x_val, y_val, z_val, vx_val, vy_val, vz_val = states[i]
+        e_err = energy_error[i]
+
+        f.write(f"{t_val:<12.1f} {x_val:<11.6f} {y_val:<11.6f} {z_val:<11.6f} "
+                f"{vx_val:<12.6f} {vy_val:<12.6f} {vz_val:<12.6f} {e_err:<12.6e}\n")
+
+print(f"Data successfully saved to {filename}")
