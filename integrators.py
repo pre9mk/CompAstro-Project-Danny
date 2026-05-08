@@ -14,11 +14,13 @@ def get_derivatives(t, U, acceleration_func):
 def rk4(t, U, h, acceleration_func):
     """Advances U by timestep h using RK4"""
 
+    print("aaaaaaaaaaa")
+
     k1 = get_derivatives(t, U, acceleration_func)
-    k2 = get_derivatives(t + (h/2), U - (h/2) * k1, acceleration_func)
-    k3 = get_derivatives(t + (h/2), U + (h/2) * k2, acceleraton_func)
+    k2 = get_derivatives(t + (h/2), U + (h/2) * k1, acceleration_func)
+    k3 = get_derivatives(t + (h/2), U + (h/2) * k2, acceleration_func)
     k4 = get_derivatives(t + h, U + h * k3, acceleration_func)
 
-    U_next = U + (h/4) * (k1 + 2*k2 + 2*k3 + k4)
+    U_next = U + (h/6) * (k1 + 2*k2 + 2*k3 + k4)
 
     return U_next

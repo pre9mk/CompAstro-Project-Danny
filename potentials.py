@@ -2,16 +2,16 @@ import numpy as np
 
 G = 4.498e-12
 
-class Potential:
-    """Class for potential components"""
+#class Potential:
+#    """Class for potential components"""
 
-    def evaluate(x, y, z):
-        """Returns potential energy at (x, y, z)"""
-        raise NotImplementedError("error")
+#    def evaluate(x, y, z):
+#        """Returns potential energy at (x, y, z)"""
+#        raise NotImplementedError("error")
 
-    def acceleration(ax, ay, az):
-        """Returns acceleration vector [ax, ay, az]"""
-        raise NotImplementedError("error")
+#    def acceleration(ax, ay, az):
+#        """Returns acceleration vector [ax, ay, az]"""
+#        raise NotImplementedError("error")
 
 
 def MiyamotoNagai(M, a, b):
@@ -106,7 +106,7 @@ def nfw_halo(M, r_s):
     return {"evaluate": evaluate, "acceleration": acceleration}
 
 
-def create_total_potential(components):
+def total_potential(components):
     """Takes the potentials and returns a single unified evaluate and acceleration function"""
 
     def evaluate(x, y, z):
@@ -118,12 +118,14 @@ def create_total_potential(components):
         return total_pot
 
     def acceleration(x, y, z):
-        total_acc = np.array([0, 0, 0])
+        total_acc = np.array([0.0, 0.0, 0.0])
 
         for comp in components:
             total_acc += comp["acceleration"](x, y, z)
 
         return total_acc
+
+    return {"evaluate": evaluate, "acceleration": acceleration}
 
 
 
