@@ -102,7 +102,7 @@ with open(filename, "w") as f:
     #Header row
     f.write("Time(Myr)    x(kpc)    y(kpc)    z(kpc)    vx(kpc/Myr)    vy(kpc/Myr)    vz(kpc/Myr)    Energy_Error\n")
 
-    #Loop through and return the first 50 lines of data
+    #Loop through and return the first 1000 lines of data
     for i in range(0, num_steps, 50):
         t_val = times[i]
         x_val, y_val, z_val, vx_val, vy_val, vz_val = states[i]
