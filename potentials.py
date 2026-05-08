@@ -9,7 +9,7 @@ class Potential:
         """Returns potential energy at (x, y, z)"""
         raise NotImplementedError("error")
 
-    def acceleration():
+    def acceleration(ax, ay, az):
         """Returns acceleration vector [ax, ay, az]"""
         raise NotImplementedError("error")
 
@@ -20,6 +20,7 @@ def MiyamotoNagai(M, a, b):
     def evaluate(x, y, z):
         R_sq = x**2 + y**2
         z_term = np.sqrt(z**2 + b**2)
+        denominator = np.sqrt(R_sq + (a + z_term)**2)
 
         potential = (G * M) / denominator
 
@@ -35,7 +36,7 @@ def MiyamotoNagai(M, a, b):
 
         #x and y accelerations
         ax = -(G * M * x) / base_denominator
-        ay = -(G * M * x) / base_denominator
+        ay = -(G * M * y) / base_denominator
 
         #z acceleration w/ extra factor
         az_numerator = -(G * M * z * (a - z_term))
@@ -44,13 +45,7 @@ def MiyamotoNagai(M, a, b):
 
         return np.array([ax, ay, az])
 
-    #Creates the Miyamoto-Nagai disk using values for stellar disk mass, radial scale length, and vertical scale height
-    #NOTE: LOOK UP PAPERS FOR VALUES OF MILKY WAY
-    disk = create_miyamoto_nagai(M= , a= , b=)
-
-    #Calculate the acceleration for a star at 8 kpc out on the x-axis
-    disk_accel = disk["acceleration"](x=8, y=0, z=0)
-
+    return {"evaluate": evaluate, "acceleration": acceleration}
 
 def hernquist(M, c):
     """Creates a Hernquist bulge potential"""
@@ -122,7 +117,7 @@ def create_total_potential(components):
         total_acc = np.array([0, 0, 0])
 
         for comp in components:
-            total acc += comp["acceleration"](x, y, z)
+            total_acc += comp["acceleration"](x, y, z)
 
         return total_acc
 

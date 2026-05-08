@@ -9,7 +9,7 @@ def get_derivatives(t, U, acceleration_func):
 
     ax, ay, az = accel[0], accel[1], accel[2]
 
-    return np.array([vx, vy, vz, ax, ay, az]
+    return np.array([vx, vy, vz, ax, ay, az])
 
 def rk4(t, U, h, acceleration_func):
     """Advances U by timestep h using RK4"""
