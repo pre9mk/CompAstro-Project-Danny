@@ -12,8 +12,8 @@ We use a 4th-Order Runge-Kutta (RK4) integrator to calculate the orbital path of
 ## Dependencies
 This code utilizes Python 3 and the following libraries:
 
-1. numpy
-2. matplotlib
+1. NumPy - https://numpy.org/doc/
+2. Matplotlib - https://matplotlib.org/stable/index.html
 
 ## Files
 We include 4 primary Python (.py) files:

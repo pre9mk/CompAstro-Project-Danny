@@ -1,3 +1,23 @@
+"""
+Computational Astrophysics Final Project
+
+Main execution module. Initializes a galactic environment consisting of three components:
+
+Miyamoto-Nagai Disk
+Hernquist Bulge
+Navarro-Frenk-White Dark Matter Halo
+
+The user is prompted to input their desired variables, initializing a galactic environment.
+An RK4 integrator advances the stellar state vector through time, then the script generates 2D orbital
+and energy plots, which are saved to the user's computer as .png files along with a .txt file displaying 
+the raw data.
+
+Author: Danny Western
+Institution: University of Virginia, Department of Astronomy
+Course: ASTR 5470 - Computational Astrophysics (Dr. Shane Davis)
+
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from potentials import MiyamotoNagai, hernquist, nfw_halo, total_potential
@@ -27,21 +47,21 @@ m_halo = float(input("Enter halo mass (M_sun): "))
 rs_halo = float(input("Enter halo scale radius r_s (kpc): "))
 halo_pot = nfw_halo(M=m_halo, r_s=rs_halo)
 
-#combine components
+#Combine Components
 galaxy = total_potential([disk_pot, bulge_pot, halo_pot])
 accel_tool = galaxy["acceleration"]
 eval_tool = galaxy["evaluate"]
 
-#set initial conditions
+#Set Initial Conditions
 x0 = float(input("Initial x position (kpc): "))
 v0_kms = float(input("Initial tangential velocity (km/s): "))
 v0_units = v0_kms * 0.0010227 #converting to kpc/Myr
 
-#initial state vector: [x, y, z, vx, vy, vz]
+#Initial state vector: [x, y, z, vx, vy, vz]
 #z is 0.1 to avoid being perfectly trapped on the x-axis
 U_current = np.array([x0, 0, 0.1, 0, v0_units, 0])
 
-#integration setup
+#Integration Setup
 num_steps = 50000
 h = 1
 
@@ -49,7 +69,7 @@ times = np.zeros(num_steps)
 states = np.zeros((num_steps, 6))
 energies = np.zeros(num_steps)
 
-#run integration
+#Run Integration
 print("Starting Integration")
 
 for i in range(num_steps):
@@ -65,11 +85,11 @@ for i in range(num_steps):
     #Use rk4 to move the star forward in time
     U_current = rk4(t=times[i], U=U_current, h=h, acceleration_func=accel_tool)
 
-#make plots
+#Make Plots
 print("Integration complete. Generating plots...")
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
-#plot 1: x vs y
+#Plot 1: x vs y
 x_coords = states[:, 0]
 y_coords = states[:, 1]
 
@@ -80,7 +100,7 @@ ax1.set_ylabel("y Position (kpc)")
 ax1.grid(True)
 ax1.axis("equal")
 
-#plot 2: energy error
+#Plot 2: Energy Error
 E_initial = energies[0]
 energy_error = np.abs((energies - E_initial) / E_initial)
 
@@ -92,6 +112,11 @@ ax2.set_yscale("log")
 ax2.grid(True)
 
 plt.tight_layout()
+
+plot_filename = "stellar_orbit_plots.png"
+plt.savefig(plot_filename, dpi=300, bbox_inches="tight")
+print("Plots successfully saved")
+
 plt.show()
 
 #Put data in a .txt file and export it

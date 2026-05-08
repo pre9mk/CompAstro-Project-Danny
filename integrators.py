@@ -1,3 +1,16 @@
+"""
+Module containing the required methods to solve the equations of motion for a star
+within a gravitational field.
+
+This implements a 4th-Order Runge-Kutta (RK4) integrator to advance a stellar state vector
+[x, y, z, vx, vy, vz] through time.
+
+Author: Danny Western
+Institution: University of Virginia, Department of Astronomy
+Course: ASTR 5470 - Computational Astrophysics (Dr. Shane Davis)
+
+"""
+
 import numpy as np
 
 def get_derivatives(t, U, acceleration_func):

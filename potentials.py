@@ -1,22 +1,47 @@
+"""
+Module that calculates the potentials and accelerations of the following components:
+
+Miyamoto-Nagai Disk: 
+def Miyamoto-Nagai(M, a, b)
+
+Hernquist Bulge: 
+def hernquist(M, c)
+
+Navarro-Frenk-White Dark Matter Halo:
+def nfw_halo(M, r_s)
+
+The component potentials and accelerations are then combined into a total and returned as a Python dictionary.
+
+Tools:
+def evaluate(x, y, z) evaluates and returns the potentials as single floats
+def acceleration(x, y, z)  evaluates and returns the 3D acceleration vectors as 1D numpy arrays
+
+Author: Danny Western
+Institution: University of Virginia, Department of Astronomy
+Course: ASTR 5470 - Computational Astrophysics (Dr. Shane Davis)
+
+"""
+
 import numpy as np
 
 G = 4.498e-12
 
-#class Potential:
-#    """Class for potential components"""
-
-#    def evaluate(x, y, z):
-#        """Returns potential energy at (x, y, z)"""
-#        raise NotImplementedError("error")
-
-#    def acceleration(ax, ay, az):
-#        """Returns acceleration vector [ax, ay, az]"""
-#        raise NotImplementedError("error")
-
-
 def MiyamotoNagai(M, a, b):
-    """Miyamoto-Nagai disk potential"""
+    """
+    Creates a Miyamoto-Nagai disk potential
+
+    Parameters:
+    Mass of disk: M (solar masses)
+    Scale length of disk: a (kpc)
+    Scale height of disk: b (kpc)
+
+    Returns (as a Python dictionary):
+    Potential
+    Acceleration (numpy array)
     
+    """
+
+    #Evaluates and returns the potential
     def evaluate(x, y, z):
         R_sq = x**2 + y**2
         z_term = np.sqrt(z**2 + b**2)
@@ -26,6 +51,7 @@ def MiyamotoNagai(M, a, b):
 
         return potential
 
+    #Evaluates acceleration and returns a numpy array
     def acceleration(x, y, z):
         R_sq = x**2 + y**2
         z_term = np.sqrt(z**2 + b**2)
@@ -48,7 +74,19 @@ def MiyamotoNagai(M, a, b):
     return {"evaluate": evaluate, "acceleration": acceleration}
 
 def hernquist(M, c):
-    """Creates a Hernquist bulge potential"""
+    """
+    Creates a Hernquist bulge potential
+
+    Parameters:
+    Mass of central bulge: M (solar masses)
+    Scale radius of the bulge: c (kpc)
+
+    Returns (as a Python dictionary):
+    Potential
+    Acceleration (numpy array)
+    
+    """
+    
     def evaluate(x, y, z):
         r = np.sqrt(x**2 + y**2 + z**2)
 
@@ -72,7 +110,18 @@ def hernquist(M, c):
     return {"evaluate": evaluate, "acceleration": acceleration}
 
 def nfw_halo(M, r_s):
-    """Creates a Navarro-Frenk-White dark matter halo potential"""
+    """
+    Creates a Navarro-Frenk-White dark matter halo potential
+
+    Parameters:
+    Mass of halo: M (solar masses)
+    Scale radius of halo: r_s (kpc)
+
+    Returns (as a Python dictionary):
+    Potential
+    Acceleration (numpy array)
+    
+    """
 
     def evaluate(x, y, z):
         r = np.sqrt(x**2 + y**2 + z**2)
@@ -107,7 +156,17 @@ def nfw_halo(M, r_s):
 
 
 def total_potential(components):
-    """Takes the potentials and returns a single unified evaluate and acceleration function"""
+    """
+    Takes the potentials and returns a single unified evaluate and acceleration function
+
+    Parameters:
+    Components: All 3 individual components of the galaxy
+
+    Returns (as a Python dictionary):
+    Total Potential
+    Total Acceleration (numpy array)
+    
+    """
 
     def evaluate(x, y, z):
         total_pot = 0
