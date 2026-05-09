@@ -35,3 +35,4 @@ def rk4(t, U, h, acceleration_func):
     U_next = U + (h/6) * (k1 + 2*k2 + 2*k3 + k4)
 
     return U_next
+    

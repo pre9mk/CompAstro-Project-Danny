@@ -185,10 +185,3 @@ def total_potential(components):
         return total_acc
 
     return {"evaluate": evaluate, "acceleration": acceleration}
-
-
-
-
-
-    
-        
