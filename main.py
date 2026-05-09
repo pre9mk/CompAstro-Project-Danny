@@ -16,6 +16,23 @@ Author: Danny Western
 Institution: University of Virginia, Department of Astronomy
 Course: ASTR 5470 - Computational Astrophysics (Dr. Shane Davis)
 
+
+Primary References:
+
+* Masanori Miyamoto, Ryuzaburo Nagai, Three-Dimensional Models for the Distribution
+of Mass in Galaxies, Publications of the Astronomical Society of Japan, Volume 27, Issue
+4, 25 December 1975, Pages 533–543, https://doi.org/10.1093/pasj/27.4.533
+
+* Hernquist, L. (1990). An analytical model for spherical galaxies and bulges. The Astrophysical Journal, 356. https://doi.org/10.1086/168845
+
+* Navarro, J. F., Frenk, C. S., White, S. D. (1996). The structure of Cold dark matter
+halos. The Astrophysical Journal, 462, 563. https://doi.org/10.1086/177173
+
+* Davis, S. (2026). ASTR 5470 Class Notes, University of Virginia Dept. of Astronomy
+
+* Zingale, M. (2023). Coding Solvers for Fluids. CCA Fluid Dynamics Summer School
+2023. https://zingale.github.io/cca-summer-school/intro.htm
+
 """
 
 import numpy as np
